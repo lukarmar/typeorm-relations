@@ -21,6 +21,7 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -34,7 +35,7 @@
         "prefixWithI": "always"
       }
     ],
-    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/class-name-casing": "off",
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "import/extensions": [
