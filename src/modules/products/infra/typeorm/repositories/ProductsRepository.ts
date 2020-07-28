@@ -49,7 +49,18 @@ class ProductsRepository implements IProductsRepository {
   ): Promise<Product[]> {
     const ids = products.map(({ id }) => id);
 
-    const findProducts = await this.ormRepository.find({ where: In(ids) });
+    const findProducts = await this.ormRepository.find({
+      where: { id: In(ids) },
+    });
+
+    products.forEach(data => {
+      const indexArrayProduct = findProducts.findIndex(
+        product => product.id === data.id,
+      );
+      findProducts[indexArrayProduct].quantity = data.quantity;
+    });
+
+    await this.ormRepository.save(findProducts);
 
     return findProducts;
   }

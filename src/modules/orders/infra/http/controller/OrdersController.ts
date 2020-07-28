@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-
+import { classToClass } from 'class-transformer';
 import { container } from 'tsyringe';
 
 import CreateOrderService from '@modules/orders/services/CreateOrderService';
@@ -13,18 +13,18 @@ export default class OrdersController {
 
     const order = await findOrder.execute({ id });
 
-    delete order?.customer_id;
-
-    return response.json(order);
+    return response.json(classToClass(order));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { customer_id, products } = request.body;
 
-    const createOrders = container.resolve(CreateOrderService);
+    const createOrders = container.resolve(classToClass(CreateOrderService));
 
     const orders = await createOrders.execute({ customer_id, products });
 
-    return response.json(orders);
+    delete orders?.customer_id;
+
+    return response.status(201).json(orders);
   }
 }

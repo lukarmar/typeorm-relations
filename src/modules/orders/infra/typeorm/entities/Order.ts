@@ -9,14 +9,17 @@ import {
   Column,
 } from 'typeorm';
 
+import { Exclude } from 'class-transformer';
 import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 import OrdersProducts from '@modules/orders/infra/typeorm/entities/OrdersProducts';
 
 @Entity('orders')
 class Order {
+  @Exclude()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Exclude()
   @Column()
   customer_id: string;
 
@@ -30,9 +33,11 @@ class Order {
   })
   order_products: OrdersProducts[];
 
+  @Exclude()
   @CreateDateColumn()
   created_at: Date;
 
+  @Exclude()
   @UpdateDateColumn()
   updated_at: Date;
 }
