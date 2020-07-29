@@ -57,7 +57,7 @@ class ProductsRepository implements IProductsRepository {
       const indexArrayProduct = findProducts.findIndex(
         product => product.id === data.id,
       );
-      findProducts[indexArrayProduct].quantity = data.quantity;
+      findProducts[indexArrayProduct].quantity -= data.quantity;
     });
 
     await this.ormRepository.save(findProducts);

@@ -44,9 +44,14 @@ class CreateOrderService {
       throw new AppError('Product in list does not exist');
     }
 
-    productsExists.forEach((product, index) => {
-      if (product.quantity > products[index].quantity) {
-        throw new AppError(`The product ${product.name}no stock quantity`);
+    products.forEach(({ id, quantity }) => {
+      const indexProduct = productsExists.findIndex(
+        product => product.id === id,
+      );
+      if (quantity > productsExists[indexProduct].quantity) {
+        throw new AppError(
+          `Quantity of ${productsExists[indexProduct].name} product above stock limit`,
+        );
       }
     });
 
@@ -54,8 +59,9 @@ class CreateOrderService {
 
     const newAddProducts = productsExists.map(product => ({
       product_id: product.id,
-      price: Number(product.price),
-      quantity: product.quantity,
+      price: product.price,
+      quantity:
+        products[products.findIndex(data => data.id === product.id)].quantity,
     }));
 
     const order = await this.ordersRepository.create({

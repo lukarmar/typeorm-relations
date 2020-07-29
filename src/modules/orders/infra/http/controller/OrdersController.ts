@@ -23,8 +23,6 @@ export default class OrdersController {
 
     const orders = await createOrders.execute({ customer_id, products });
 
-    delete orders?.customer_id;
-
-    return response.status(201).json(orders);
+    return response.json(orders);
   }
 }
